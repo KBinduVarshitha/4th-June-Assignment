@@ -1,0 +1,127 @@
+<!-- 4th June -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <style>
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 80px;
+        }
+
+        input, textarea {
+            width: 250px;
+            padding: 5px;
+            border: 2px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-left: 10px;
+            width: 100px;
+        }
+
+        input.error-border, textarea.error-border {
+            border-color: red;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Registration Form</h2>
+    <form id="regForm" onsubmit="return validateForm()">
+        <div>
+            <label>Name:</label>
+            <input type="text" id="name">
+            <span class="error" id="nameError"></span>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="text" id="email">
+            <span class="error" id="emailError"></span>
+        </div>
+        <div>
+            <label>Website:</label>
+            <input type="text" id="website">
+            <span class="error" id="websiteError"></span>
+        </div>
+        <div>
+            <label>Message:</label>
+            <textarea id="message" rows="4"></textarea>
+            <span class="error" id="messageError"></span>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        let valid = true;
+        document.querySelectorAll('.error').forEach(el => el.textContent = '');
+        document.querySelectorAll('input, textarea').forEach(el => el.classList.remove('error-border'));
+
+        const name = document.getElementById('name').value.trim();
+        if (name === '') {
+            document.getElementById('nameError').textContent = "This field is required";
+            document.getElementById('name').classList.add('error-border');
+            valid = false;
+        }
+
+        const email = document.getElementById('email').value.trim();
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (email === '') {
+            document.getElementById('emailError').textContent = "This field is required";
+            document.getElementById('email').classList.add('error-border');
+            valid = false;
+        } else if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = "A valid email address is required";
+            document.getElementById('email').classList.add('error-border');
+            valid = false;
+        }
+
+        const website = document.getElementById('website').value.trim();
+        const urlPattern = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-])\/?$/;
+        if (website === '') {
+            document.getElementById('websiteError').textContent = "This field is required";
+            document.getElementById('website').classList.add('error-border');
+            valid = false;
+        } else if (!urlPattern.test(website)) {
+            document.getElementById('websiteError').textContent = "A valid URL is required";
+            document.getElementById('website').classList.add('error-border');
+            valid = false;
+        }
+
+        // Message validation
+        const message = document.getElementById('message').value.trim();
+        if (message === '') {
+            document.getElementById('messageError').textContent = "This field is required";
+            document.getElementById('message').classList.add('error-border');
+            valid = false;
+        }
+
+        return valid;
+    }
+</script>
+
+</body>
+</html>
